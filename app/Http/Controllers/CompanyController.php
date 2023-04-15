@@ -146,7 +146,6 @@ class CompanyController extends Controller
 
     public function getCompanyList()
     {
-        return hii;
         $company_list = Company::get();
         $compList = [];
         foreach($company_list as $row){
