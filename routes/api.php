@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,10 @@ Route::resources([
 
 Route::get('companylist',[CompanyController::class,'getCompanyList']);
 Route::get('bike/list/{id}',[BikeController::class,'getBikeList']);
+Route::post('fileupload',[BikeController::class,'fileUpload']);
+Route::put('updatefile',[BikeController::class,'updateFile']);
+Route::get('download/{id}/{filename}',[BikeController::class,'download']);
+
+//Auth - Login & Register
+Route::post('custom-login', [AuthenticationController::class, 'customLogin']); 
+Route::get('signout', [AuthenticationController::class, 'signOut'])->name('signout');
