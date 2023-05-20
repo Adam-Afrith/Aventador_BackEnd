@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::resources([
     'company' => CompanyController::class,
     'bike' => BikeController::class,
     'owner' => OwnerController::class,
+    'file' => FileController::class,
 ]);
 
 
@@ -35,9 +37,11 @@ Route::resources([
 
 Route::get('companylist',[CompanyController::class,'getCompanyList']);
 Route::get('bike/list/{id}',[BikeController::class,'getBikeList']);
-Route::post('fileupload',[BikeController::class,'fileUpload']);
-Route::put('updatefile',[BikeController::class,'updateFile']);
-Route::get('download/{id}/{filename}',[BikeController::class,'download']);
+Route::get('bikemodel/list',[BikeController::class,'getBikeModel']);
+
+Route::post('fileupload',[FileController::class,'fileupload']);
+Route::put('updatefile',[FileController::class,'updateFile']);
+Route::get('download/{id}/{filename}',[FileController::class,'download']);
 
 //Auth - Login & Register
 Route::post('custom-login', [AuthenticationController::class, 'customLogin']); 

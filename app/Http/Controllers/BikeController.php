@@ -161,8 +161,8 @@ else{
 
     public function getBikeList($companyId)
     {
-        $bike_list = Bike::where("company_id",$companyId)->get();
         $bikeList = [];
+        $bike_list = Bike::where("company_id",$companyId)->get(); 
         foreach($bike_list as $row){
             $bikeList[] = ["value" => $row['id'], "label" => $row['bike_name']];
         }
@@ -171,59 +171,18 @@ else{
         ]);
     }
 
-    public function fileUpload(Request $request)
+    public function getBikeModel()
     {
-
+        $bikeModelList = [];
+        $bike_model_list = Bike::where('company_id','=',1)->get(); 
+        foreach($bike_model_list as $row){
+            $bikeModelList[] = ["value" => $row['id'], "label" => $row['bike_name']];
+        }
+        return response()->json([
+            'bikemodellist' => $bikeModelList,
+        ]);
     }
 
-    public function updateFile(Request $request, $id)
-    {
-        
-    // Check if a new file has been uploaded
-    if ($request->hasFile('file')) {
-        $file = $request->file('file');
-        
-        // Move the new file to a new location
-        $hasFileName = $file->hashName();
-        $originalFileName = $file->getClientOriginalName();
-        $fileType = $file->getClientOriginalExtension();
-        $fileSize = $file->getSize();
-        
-          
 
-        // Update the file information in the database
-        $data = data::where('mainid', $id)->first();
-        $destinationPath = 'uploads/attendanceregisterfiles/'. $data->hasfilename;
-        unlink($destinationPath);
-        
-        $data->hasfilename = $hasFileName;
-        $data->filename = $originalFileName;
-        $data->filetype = $fileType;
-        $data->filesize = $fileSize;
-        $data->save();
-        $result = $file->move('uploads/attendanceregisterfiles/',   $data->hasfilename);
-
-   
-    }
     
-    // Update the attendance register information in the database
-    $attendanceUpdate = LeaveRegister::findOrFail($id)->update($request->all());
-
-    if ($attendanceUpdate) {
-        return response()->json([
-            'status' => 200,
-            'message' => "Updated Successfully!",
-        ]);
-    } else {
-        return response()->json([
-            'status' => 400,
-            'message' => "Sorry, Failed to Update, Try again later"
-        ]);
-    }
-    }
-
-    public function download($filename)
-    {
-
-    }
 }
