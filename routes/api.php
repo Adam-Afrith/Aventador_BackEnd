@@ -36,6 +36,7 @@ Route::resources([
 //APIs:
 
 Route::get('companylist',[CompanyController::class,'getCompanyList']);
+Route::get('bikelist',[BikeController::class,'getAllBikeList']);
 Route::get('bike/list/{id}',[BikeController::class,'getBikeList']);
 Route::get('bikemodel/list',[BikeController::class,'getBikeModel']);
 

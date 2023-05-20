@@ -171,6 +171,19 @@ else{
         ]);
     }
 
+    public function getAllBikeList()
+    {
+        $bikeList = [];
+        $bike_list = Bike::get(); 
+        foreach($bike_list as $row){
+            $bikeList[] = ["value" => $row['id'], "label" => $row['bike_name']];
+        }
+        return response()->json([
+            'allbikelist' => $bikeList,
+        ]);
+    }
+    
+
     public function getBikeModel()
     {
         $bikeModelList = [];
