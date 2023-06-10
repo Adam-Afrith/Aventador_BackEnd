@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('bike_id');
             $table->foreign('bike_id')->references('id')->on('bikes')->restrictOnDelete()->onUpdate('NO ACTION');
             $table->decimal('price',10,2);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
