@@ -20,6 +20,7 @@ class BikeController extends Controller
                     'c.id as cid','c.company_name',
                     'b.id as bid','b.bike_name',
                     )
+                    ->orderBy('b.id','ASC')
                 ->get();
         if($bike)
         {
@@ -86,6 +87,7 @@ class BikeController extends Controller
             )
         ->where('b.id',$id)    
         ->get();
+       
 if($bike)
 {
     return response()->json([

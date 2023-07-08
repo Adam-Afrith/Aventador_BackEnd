@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\FileSub;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FileController extends Controller
 {
@@ -13,7 +14,21 @@ class FileController extends Controller
      */
     public function index()
     {
-        return "hii";
+        $vehicle_list = DB::table('files as f')
+                        ->leftJoin('bikes as b','b.id','f.vehicle_name')
+                        ->select(
+                            'f.id',
+                            'b.bike_name', 
+                        )->orderBy('f.id','asc')
+                        ->get();
+
+        if($vehicle_list){
+            return response()->json([
+                'status'=> 200,
+                'vehicles'=>$vehicle_list
+            ]);
+        }
+        
     }
 
     public function store(Request $request)
@@ -38,6 +53,7 @@ class FileController extends Controller
 
     public function fileupload(Request $request)
     {
+        
         if($request ->hasFile('file')){
             $file = $request->file('file');
             $originalfileName = $file->getClientOriginalName();
@@ -63,11 +79,10 @@ class FileController extends Controller
 
             
                 $get_id = File::orderBy('id', 'desc')->first('id');
-
-                $main_id = $get_id->id;
+           
              
                 $FileSub = new FileSub;
-                $FileSub->mainid = $main_id;
+                $FileSub->mainid = $get_id->id;
                 // $FileSub->filename = $filename2;
                 $FileSub->originalfilename = $originalfileName;
                 $FileSub->file_type = $fileType;
@@ -102,9 +117,9 @@ class FileController extends Controller
     }
     
 
-    public function show(File $file)
+    public function show($id)
     {
-        //
+        return "hii";
     }
 
     /**
