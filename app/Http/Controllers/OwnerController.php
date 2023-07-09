@@ -122,12 +122,15 @@ else{
      */
     public function update(Request $request, $id)
     {
-        $owner_name = Owner::where('owner_name', '=' ,$request->owner_name)->exists();
+        $owner_name = Owner::where('owner_name', '=' ,$request->owner_name)
+                    ->where('id','!=',$id)
+                    ->exists();
+                    
         if($owner_name)
         {
             return response()->json([
                 'status' => 400,
-                'message' => 'Owner Name Already Exists',
+                'errors' => 'Owner Name Already Exists',
             ]);
         }
         $owner_update = Owner::findOrFail($id)->update($request->all());

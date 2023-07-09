@@ -116,12 +116,15 @@ else{
      */
     public function update(Request $request, $id)
     {
-        $bike_name = Bike::where('bike_name', '=' ,$request->bike_name)->exists();
+        $bike_name = Bike::where('bike_name', '=' ,$request->bike_name)
+                    ->where('id','!=',$id)
+                    ->exists();
+
         if($bike_name)
         {
             return response()->json([
                 'status' => 400,
-                'message' => 'Bike Name Already Exists',
+                'errors' => 'Bike Name Already Exists',
             ]);
         }
         $bike_update = Bike::findOrFail($id)->update($request->all());

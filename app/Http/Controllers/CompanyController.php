@@ -99,12 +99,15 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $company_name = Company::where('company_name', '=' ,$request->company_name)->exists();
+        $company_name = Company::where('company_name', '=' ,$request->company_name)
+                        ->where('id','!=',$id)
+                        ->exists();
+
         if($company_name)
         {
             return response()->json([
                 'status' => 400,
-                'message' => 'Company Name Already Exists',
+                'errors' => 'Company Name Already Exists',
             ]);
         }
         $company_update = Company::findOrFail($id)->update($request->all());
