@@ -131,6 +131,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
+        try{
         $company_del = Company::destroy($id);
         if($company_del)
         {
@@ -142,9 +143,19 @@ class CompanyController extends Controller
         else{
             return response()->json([
                 'status' => 400,
-                'message' => 'Cannot Delete this...',
+                'errors' => 'Cannot Delete this...',
             ]);
         }
+    }catch(\Illuminate\Database\QueryException $ex){
+        $error = $ex->getMessage();
+
+        return response()->json([
+            'status' => 400,
+            'errors' => 'Unable to delete! This data is used in another file/form/table.',
+            "errormessage" => $error,
+        ]);
+    }
+    
     }
 
     public function getCompanyList()

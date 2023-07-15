@@ -148,6 +148,7 @@ else{
      */
     public function destroy($id)
     {
+        try{
         $bike_del = Bike::destroy($id);
         if($bike_del)
         {
@@ -159,9 +160,19 @@ else{
         else{
             return response()->json([
                 'status' => 400,
-                'message' => 'Cannot Delete this...',
+                'errors' => 'Cannot Delete this...',
             ]);
         }
+    }catch(\Illuminate\Database\QueryException $ex){
+        $error = $ex->getMessage();
+
+        return response()->json([
+            'status' => 400,
+            'errors' => 'Unable to delete! This data is used in another file/form/table.',
+            "errormessage" => $error,
+        ]);
+    }
+
     }
 
     public function getBikeList($companyId)
